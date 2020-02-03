@@ -22,7 +22,7 @@ You will be able to close only half of your trader, i.e, you have opened  a trad
 
 **Percentage Profit**
 
-The PP will show you how much percentage you are earning with a trade, that percentage is relative to your capital, for example you have 1000€ capital and you entered a trade with 0.1 lots, imagine that your trade is in profit and that profit is 10% of your capital, that means you are earning 100€ in that trade. with this indicator you can control your gain and loss percentage per trade.
+This will show you how much percentage you are earning with a trade, that percentage is relative to your capital, for example you have 1000€ capital and you entered a trade with 0.1 lots, imagine that your trade is in profit and that profit is 10% of your capital, that means you are earning 100€ in that trade. with this indicator you can control your gain and loss percentage per trade.
 
 
 **Trailling**
