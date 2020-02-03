@@ -1,2 +1,2 @@
-# metatrader-repo
+# METATRADER REPO
 Meta Trader repository
