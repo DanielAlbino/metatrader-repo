@@ -1,5 +1,5 @@
-# META TRADER REPO
-In this repository you will find Expert Advisors and Indicators for MetaTrader4 and MetaTrader5 in their respective folders.
+# META TRADER REPOSITORY
+Here you will find Expert Advisors and Indicators for MetaTrader4 and MetaTrader5 in their respective folders.
 
 # MT4
 All the following Includes can be used in an Expert Advisor.
