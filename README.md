@@ -27,7 +27,7 @@ The PP will show you how much percentage you are earning with a trade, that perc
 
 **Trailling**
 
-Trailling will help you close the trades, i.e, you have a trade in profit and you want to follow that trade every 20 pips after 100pips profit, with this indicator you will have a Stop Loss in profit following the price until the price reach that Stop Loss, in this case is called trailing stop.
+Trailling will help you close the trades, i.e, you have a trade in profit and you want to follow that trade every 20 pips after 100 pips profit, with this indicator you will have a Stop Loss in profit following the price until the price reach that Stop Loss, in this case is called trailing stop.
 
 
 **Open Orders**
