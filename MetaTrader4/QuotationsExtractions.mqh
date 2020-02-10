@@ -66,7 +66,7 @@ void getQuotes() {
     } else {
      string Query;
      // Inserting data 1 row
-     Query = "INSERT INTO `Candles` (open, close, maximum, minimum) VALUES ("+O+","+C+","+H+","+L+")";
+     Query = "INSERT INTO `Candles` (currency, open, close, maximum, minimum) VALUES ("+Symbol()+","+O+","+C+","+H+","+L+")";
      if (MySqlExecute(DB, Query))
         {
          Print ("Succeeded: ", Query);
