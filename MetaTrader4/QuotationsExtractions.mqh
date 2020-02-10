@@ -15,10 +15,13 @@
 #property copyright "Copyright 2020, Daniel Albino"
 #property link      ""
 #property strict
+
+// creating object type
 enum onoff { 
     on = 1, // ON
     off = 0 // OFF
     };
+
 input onoff start = on; // Expert Advisor active:
 input int TimeStart = 7; // Insert the Start Time from 1 to 24.
 input int TimeFinish = 7; // Insert the Start Time from 1 to 24.
