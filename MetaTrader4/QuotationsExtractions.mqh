@@ -1,17 +1,6 @@
 /*
     Quotations Extraction
 */
-
-#property copyright "Copyright 2020, Daniel Albino"
-#property link      ""
-#property strict
-
-
-input int TimeStart = 7; // Inser the Start Time
-int ClientFlag = CLIENT_MULTI_STATEMENTS; // Definir o flag multi-statements
-string Host, User, Password, Database, Socket; // database credentials
-int Port;
-int DB; // database identifier
 /* 
     Gostaria de um app que enviasse as cotações (a/f/mx/mn) de cada minuto (eu irei selecionar o período) para vários ativos (que eu irei selecionar) simultaneamente para um banco de dados.
     Por exemplo: 
@@ -23,15 +12,26 @@ int DB; // database identifier
     https://www.mql5.com/pt/articles/932
  */
 
+#property copyright "Copyright 2020, Daniel Albino"
+#property link      ""
+#property strict
+
+input int TimeStart = 7; // Insert the Start Time
+input string Host = 'host'; // MYSQL Host, ex: 127.0.0.1
+input string User = 'User'; // MYSQL User, ex: admin
+input string Password = 'password'; // MYSQL Password, ex: adminpass
+input string Database = 'database_name'; // MYSQL Database Name, ex: candles_db
+input string Port = 'port'; // MYSQL Port, ex: 3060
+input string Socket = 'socket'; // MYSQL Socket, ex: 101012
+
+int ClientFlag = CLIENT_MULTI_STATEMENTS; // Definir o flag multi-statements
+string Host, User, Password, Database, Socket; // database credentials
+int Port;
+int DB; // database identifier
+
 int OnInit(){
-    // reading database credentials from INI file
-    Host = ReadIni(INI, "MYSQL", "Host");
-    User = ReadIni(INI, "MYSQL", "User");
-    Password = ReadIni(INI, "MYSQL", "Password");
-    Database = ReadIni(INI, "MYSQL", "Database");
-    Port     = (int)StringToInteger(ReadIni(INI, "MYSQL", "Port"));
-    Socket   = ReadIni(INI, "MYSQL", "Socket");
-    DB = MySqlConnect(Host, User, Password, Database, Port, Socket, ClientFlag); // Conexão com o banco de dados
+    // reading database credentials - Credentials defined by the user
+    DB = MySqlConnect(Host, User, Password, Database, Port, Socket, ClientFlag); // Conection to data base
     EventSetTimer(60);
     return(INIT_SUCCEEDED);
 }
