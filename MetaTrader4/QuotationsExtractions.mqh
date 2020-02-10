@@ -2,11 +2,11 @@
     Quotations Extraction
 */
 /* 
-    Gostaria de um app que enviasse as cotações (a/f/mx/mn) de cada minuto (eu irei selecionar o período) para vários ativos (que eu irei selecionar) simultaneamente para um banco de dados.
-    Por exemplo: 
-        Defino os ativos EUR/USD; EUR/JPY, USD/JPY
-        Imaginemos que agora são 10:00 (GMT -3) - Horário Brasilia
-        Defino que quero receber as informações a partir as 7:00 em diante e continue até eu desativar/desligar o app
+    Expert Advisor to send quotes (Open / Close / high / Low) every minute, from multiple symbols(), to a database.
+    for example:
+        Defining the symbol(): EUR/USD, USD/JPY
+        Defining the start time to start sending the information to the database for example starts at 7 am.
+        Defining the finish time to stop the information to be sent, or when i turn off the expert advisor.
 
     ACCESS MYSQL DABATASE
     https://www.mql5.com/pt/articles/932
@@ -15,8 +15,13 @@
 #property copyright "Copyright 2020, Daniel Albino"
 #property link      ""
 #property strict
-
-input int TimeStart = 7; // Insert the Start Time
+enum onoff { 
+    on = 1, // ON
+    off = 0 // OFF
+    };
+input onoff start = on; // Expert Advisor active:
+input int TimeStart = 7; // Insert the Start Time from 1 to 24.
+input int TimeFinish = 7; // Insert the Start Time from 1 to 24.
 input string Host = 'host'; // MYSQL Host, ex: 127.0.0.1
 input string User = 'User'; // MYSQL User, ex: admin
 input string Password = 'password'; // MYSQL Password, ex: adminpass
@@ -44,7 +49,9 @@ void OnTick() {
 }
 
 void OnTimer() {
-    getQuotes();
+    if(start == on && TimeHour(Time[0]) => TimeStart && TimeHour(Time[0]) =< TimeFinish){
+        getQuotes();
+    }  
 }
 
 void getQuotes() {
