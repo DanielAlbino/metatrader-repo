@@ -57,6 +57,8 @@ void OnTimer() {
     }  
 }
 
+
+//function to get the quotes and save it to the database
 void getQuotes() {
     double O = 0.0;
     double C = 0.0;
