@@ -53,7 +53,24 @@ void OnTick() {
 
 void OnTimer() {
     if(start == on && TimeHour(Time[0]) => TimeStart && TimeHour(Time[0]) =< TimeFinish){
-        getQuotes();
+       double candle =  getQuotes();
+        /* CONNECT TO MYSQL */
+    if (DB == -1) { 
+     Print ("Connection failed! Error: "+MySqlErrorDescription); 
+    } else {
+     string Query;
+     // Inserting data 1 row
+     Query = "INSERT INTO `Candles` (currency, open, close, maximum, minimum) VALUES ("+Symbol()+","+candle.O+","+candle.C+","+candle.H+","+candle.L+")";
+     if (MySqlExecute(DB, Query))
+        {
+         Print ("Succeeded: ", Query);
+        }
+     else
+        {
+         Print ("Error: ", MySqlErrorDescription);
+         Print ("Query: ", Query);
+        }
+    }
     }  
 }
 
@@ -69,25 +86,6 @@ void getQuotes() {
     C = Close[0];
     H = High[0];
     L = Low[0];
-
     double candle = [O, C, H, L];
-
-/* CONNECT TO MYSQL */
-    if (DB == -1) { 
-     Print ("Connection failed! Error: "+MySqlErrorDescription); 
-    } else {
-     string Query;
-     // Inserting data 1 row
-     Query = "INSERT INTO `Candles` (currency, open, close, maximum, minimum) VALUES ("+Symbol()+","+O+","+C+","+H+","+L+")";
-     if (MySqlExecute(DB, Query))
-        {
-         Print ("Succeeded: ", Query);
-        }
-     else
-        {
-         Print ("Error: ", MySqlErrorDescription);
-         Print ("Query: ", Query);
-        }
-    }
     return candle;
 }
