@@ -31,7 +31,7 @@ input TimeFrame tf = M1; // Time frame
 
 /* MONEY MANAGEMENT */
 input double lots = 0.01; // Lot size
-input int slippage = 1; // slippage size
+input int slip = 1; // slippage size
 
 /* TP/SL RATIO */
 input double SLRATIO = 1.0; // SL RATIO ex: 1.0, 1.2, 5.0
@@ -185,14 +185,14 @@ double Rsi (int period, int candle){
 
 /*-------------------------------------------- OTHER FUNCTIONS -----------------------------------------------*/
 
-bool BUY(double lot, int slippage, string comment, int magicnumber, color scolor){
+bool BUY(double lot, int slippage, string comment, int magic, color scolor){
     double order;
     order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,Bid - (LowerHigh-(ShadowSize*SLRATIO)), Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
 
-bool SELL(double lot, int slippage, string comment, int magicnumber, color scolor){
+bool SELL(double lot, int slippage, string comment, int magic, color scolor){
     double order;
     order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,Ask + (LowerHigh+(ShadowSize*SLRATIO)),Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
