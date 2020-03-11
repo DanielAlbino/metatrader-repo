@@ -121,6 +121,52 @@ void OnTick() {
         }
     }
 }
+/*------------------------------------------------------------------*/
+/* SIGNALS ---------------------------------------------------------*/
+/*------------------------------------------------------------------*/
+
+// check if Fast rsi is overbought/oversold
+bool Signal_1(double rsiFast, int max, int min) {
+   bool sign = false;
+    if(!signal1){
+        if(rsiFast > max || rsiFast < min){
+            sign = true;
+        }
+    }
+    return sign;  
+}
+
+// check if Slow rsi is overbought/oversold
+bool Signal_2(double rsiLow, int max, int min) {
+     bool sign = false;
+     if(!signal2){
+        if(rsiLow > max || rsiLow < min){
+            sign =  true;
+        }
+    } 
+    return sign;
+}
+
+// Check if Fast rsi is higher/low then Slow rsi on overbough/oversold
+bool Signal_3(double rsifast, double rsilow, int min, int max) {
+    bool sign = false;
+    if(!signal3){
+        if((rsifast > min && rsifast > rsilow) || (rsifast < max && rsifast < rsilow)){
+            sign = true;
+        }
+    } 
+   return sign;
+}
+
+/*------------------------------------------------------------------*/
+/* RSI -------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
+
+double Rsi (int period, int candle){
+    double rsiVal = 0.0;
+    rsiVal = iRSI(Symbol(),tf,period,PRICE_CLOSE,candle);
+    return rsiVal;
+}
 
 /*-------------------------------------------- OTHER FUNCTIONS -----------------------------------------------*/
 
