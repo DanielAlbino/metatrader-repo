@@ -157,6 +157,7 @@ bool Signal_3(double rsifast, double rsilow, int min, int max) {
     } 
    return sign;
 }
+
 /*------------------------------------------------------------------*/
 /* CANDLE LL/HH ----------------------------------------------------*/
 /*------------------------------------------------------------------*/
@@ -171,6 +172,7 @@ double Candle(int period, int max, int min){
     }
     return candle;
 }
+
 /*------------------------------------------------------------------*/
 /* RSI -------------------------------------------------------------*/
 /*------------------------------------------------------------------*/
@@ -185,14 +187,14 @@ double Rsi (int period, int candle){
 
 bool BUY(double lot, int slippage, string comment, int magicnumber, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,Bid - (ShadowSize*SLRATIO), Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,Bid - (LowerHigh-(ShadowSize*SLRATIO)), Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
 
 bool SELL(double lot, int slippage, string comment, int magicnumber, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,Ask + (ShadowSize*SLRATIO),Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,Ask + (LowerHigh+(ShadowSize*SLRATIO)),Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
