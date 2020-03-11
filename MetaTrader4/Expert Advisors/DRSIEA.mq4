@@ -105,14 +105,14 @@ void OnTick() {
             LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
         } else {
             if(Rsi(FAST_RSI,1) < MinRSILevel){
-                if(LowerHigh < Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
+                if(LowerHigh > Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
                     LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
                     if(Open[1] > Close[1]){ShadowSize = Close[1] - Low[1];}
                     if(Open[1] < Close[1]){ShadowSize = Open[1] - Low[1];}
                 }
             }
             if(Rsi(FAST_RSI,1) > MaxRSILevel){
-                if(LowerHigh > Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
+                if(LowerHigh < Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
                     LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
                     if(Open[1] > Close[1]){ShadowSize = fabs(Open[1] - High[1]);}
                     if(Open[1] < Close[1]){ShadowSize = fabs(Close[1] - High[1]);}
@@ -170,7 +170,7 @@ double Candle(int period, int max, int min){
     if(Rsi(period,1) > max){ 
         candle = High[1];
     }
-      Alert("Candle: ",candle);
+    Alert("Candle: ",candle);
     return candle;
 }
 
