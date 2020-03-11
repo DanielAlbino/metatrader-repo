@@ -106,21 +106,23 @@ void start() {
     }
 
     // check if the variable lowerhigh is lower/high then the previous candle.
-    if(LowerHigh == 0.0){
-        LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
-    } else {
-        if(Rsi(FAST_RSI) < MinRSILevel){
-            if(LowerHigh < Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
-                LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
-                if(Open[1] > Close[1]){ShadowSize = Close[1] - Low[1];}
-                if(Open[1] < Close[1]){ShadowSize = Open[1] - Low[1];}
+    if(rsi1OnOff) {
+        if(LowerHigh == 0.0){
+            LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
+        } else {
+            if(Rsi(FAST_RSI) < MinRSILevel){
+                if(LowerHigh < Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
+                    LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
+                    if(Open[1] > Close[1]){ShadowSize = Close[1] - Low[1];}
+                    if(Open[1] < Close[1]){ShadowSize = Open[1] - Low[1];}
+                }
             }
-        }
-        if(Rsi(FAST_RSI) > MaxRSILevel){
-            if(LowerHigh > Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
-                LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
-                if(Open[1] > Close[1]){ShadowSize = fabs(Open[1] - High[1]);}
-                if(Open[1] < Close[1]){ShadowSize = fabs(Close[1] - High[1]);}
+            if(Rsi(FAST_RSI) > MaxRSILevel){
+                if(LowerHigh > Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
+                    LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
+                    if(Open[1] > Close[1]){ShadowSize = fabs(Open[1] - High[1]);}
+                    if(Open[1] < Close[1]){ShadowSize = fabs(Close[1] - High[1]);}
+                }
             }
         }
     }
