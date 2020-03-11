@@ -37,6 +37,7 @@ input int FAST_RSI = 14; // Fast RSI period
 input int SLOW_RSI = 21; // Slow RSI period
 input int MaxRSILevel = 70; // Max RSI level
 input int MinRSILevel = 30; // Min RSI level
+
 /* TP/SL RATIO */
 input double SLRATIO = 1.0; // SL RATIO ex: 1.0, 1.2, 5.0
 input TPchoice choice = 1;
@@ -78,28 +79,28 @@ int OnInit(){
 void start() {
     //if the signal 1 is active than we going to see if we can get the frist signal for buy/sell
     if(rsi1OnOff){
-        signal1 =  Signal_1(Rsi(FAST_RSI),MaxRSILevel, MinRSILevel);
+        signal1 =  Signal_1(Rsi(FAST_RSI,1),MaxRSILevel, MinRSILevel);
         if(signal1){ rsi1OnOff = false;}
     }
 
     //if the signal 2 is active than we going to see if we can get the second signal for buy/sell
     if(rsi2OnOff){
-        signal2 =  Signal_2(Rsi(SLOW_RSI),MaxRSILevel, MinRSILevel);
+        signal2 =  Signal_2(Rsi(SLOW_RSI,1),MaxRSILevel, MinRSILevel);
         if(signal2){ rsi2OnOff = false;}
     }
 
     // here we going to know if the RSI fast is lower/high then RSI low
-    signal3 =  Signal_3(Rsi(FAST_RSI),Rsi(SLOW_RSI),MaxRSILevel, MinRSILevel);
+    signal3 =  Signal_3(Rsi(FAST_RSI),Rsi(SLOW_RSI,1),MaxRSILevel, MinRSILevel);
 
     // If all the parameters are Ok then we gonna show an arrow to buy
-    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI) < MinRSILevel && Rsi(SLOW_RSI) < MinRSILevel){
+    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) < MinRSILevel && Rsi(SLOW_RSI,1) < MinRSILevel && Rsi(FAST_RSI,0) > MinRSILevel && Rsi(SLOW_RSI,0) > MinRSILevel){
         BuyOrder();
         rsi1OnOff = true;
         rsi2OnOff = true;
     }
 
     // If all the parameters are Ok then we gonna show an arrow to sell
-    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI) > MaxRSILevel && Rsi(SLOW_RSI) > MaxRSILevel){
+    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI) > MaxRSILevel && Rsi(SLOW_RSI) > MaxRSILevel && Rsi(FAST_RSI,0) < MaxRSILevel && Rsi(SLOW_RSI,0) < MaxRSILevel){
         SellOrder();
         rsi1OnOff = true;
         rsi2OnOff = true;
@@ -169,9 +170,9 @@ bool Signal_3(double rsifast, double rsilow, int min, int max) {
 /* RSI -------------------------------------------------------------*/
 /*------------------------------------------------------------------*/
 
-double Rsi (int period){
+double Rsi (int period, int candle){
     double rsiVal = 0.0;
-    rsiVal = iRSI(Symbol(),tf,period,PRICE_CLOSE,1);
+    rsiVal = iRSI(Symbol(),tf,period,PRICE_CLOSE,candle);
     return rsiVal;
 }
 
