@@ -103,10 +103,6 @@ void start() {
         SellOrder();
     }
 
-    if(Rsi(FAST_RSI,1) > MinRSILevel && Rsi(FAST_RSI,1) < MaxRSILevel){
-        rsi1OnOff = true;
-        rsi2OnOff = true;
-    }
 
     // check if the variable lowerhigh is lower/high then the previous candle.
     if(rsi1OnOff) {
@@ -200,9 +196,13 @@ double Candle(int period, int max, int min){
 void BuyOrder(){
     Buffer1[0] = (LowerHigh - ShadowSize) - 10*Point;
     LowerHigh = 0.0;
+    rsi1OnOff = true;
+    rsi2OnOff = true;
 }
 
 void SellOrder(){
     Buffer2[0] = (LowerHigh + ShadowSize) + 10*Point;
     LowerHigh = 0.0;
+    rsi1OnOff = true;
+    rsi2OnOff = true;
 }
