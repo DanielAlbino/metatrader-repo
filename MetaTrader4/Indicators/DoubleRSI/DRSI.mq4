@@ -103,7 +103,7 @@ void start() {
         SellOrder();
     }
 
-    if(!rsi1OnOff && !rsi2OnOff && ((Rsi(FAST_RSI,1) >= 50 && Rsi(FAST_RSI,1) <= 70) || (Rsi(FAST_RSI,1) <= 50) && Rsi(FAST_RSI,1) >= 30)){
+    if(!rsi1OnOff && !rsi2OnOff && ((Rsi(FAST_RSI,1) >= 50 && Rsi(FAST_RSI,1) <= 70) || (Rsi(FAST_RSI,1) <= 50 && Rsi(FAST_RSI,1) >= 30))){
         rsi1OnOff = true;
         rsi2OnOff = true;
     }
