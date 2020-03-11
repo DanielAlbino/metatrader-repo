@@ -104,7 +104,7 @@ void start() {
         rsi1OnOff = true;
         rsi2OnOff = true;
     }
-
+    
     // check if the variable lowerhigh is lower/high then the previous candle.
     if(rsi1OnOff) {
         if(LowerHigh == 0.0){
