@@ -184,10 +184,10 @@ double Rsi (int period, int candle){
 
 double Candle(int period, int max, int min){
     double candle = 0.0;
-    if(Rsi(period) < min){ 
+    if(Rsi(period,1) < min){ 
         candle = Low[1];
     }
-    if(Rsi(period) > max){ 
+    if(Rsi(period,1) > max){ 
         candle = High[1];
     }
     return candle;
