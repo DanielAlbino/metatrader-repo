@@ -171,6 +171,7 @@ double Candle(int period, int max, int min){
         candle = High[1];
     }
     return candle;
+    alert("Candle: "),candle;
 }
 
 /*------------------------------------------------------------------*/
