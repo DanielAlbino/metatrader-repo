@@ -103,11 +103,9 @@ void start() {
         SellOrder();
     }
 
-    if(Rsi(FAST_RSI,1) > MinRSILevel || Rsi(FAST_RSI,1) < MaxRSILevel){
+    if(Rsi(FAST_RSI,1) > MinRSILevel && Rsi(FAST_RSI,1) < MaxRSILevel){
         rsi1OnOff = true;
         rsi2OnOff = true;
-    } else {
-
     }
 
     // check if the variable lowerhigh is lower/high then the previous candle.
