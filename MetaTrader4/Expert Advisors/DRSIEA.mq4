@@ -170,7 +170,6 @@ double Candle(int period, int max, int min){
     if(Rsi(period,1) > max){ 
         candle = High[1];
     }
-    Alert("Candle: ",candle);
     return candle;
 }
 
