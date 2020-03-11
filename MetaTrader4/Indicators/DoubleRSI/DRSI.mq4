@@ -90,7 +90,7 @@ void start() {
     }
 
     // here we going to know if the RSI fast is lower/high then RSI low
-    signal3 =  Signal_3(Rsi(FAST_RSI),Rsi(SLOW_RSI,1),MaxRSILevel, MinRSILevel);
+    signal3 =  Signal_3(Rsi(FAST_RSI,1),Rsi(SLOW_RSI,1),MaxRSILevel, MinRSILevel);
 
     // If all the parameters are Ok then we gonna show an arrow to buy
     if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) < MinRSILevel && Rsi(SLOW_RSI,1) < MinRSILevel && Rsi(FAST_RSI,0) > MinRSILevel && Rsi(SLOW_RSI,0) > MinRSILevel){
@@ -100,7 +100,7 @@ void start() {
     }
 
     // If all the parameters are Ok then we gonna show an arrow to sell
-    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI) > MaxRSILevel && Rsi(SLOW_RSI) > MaxRSILevel && Rsi(FAST_RSI,0) < MaxRSILevel && Rsi(SLOW_RSI,0) < MaxRSILevel){
+    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) > MaxRSILevel && Rsi(SLOW_RSI,1) > MaxRSILevel && Rsi(FAST_RSI,0) < MaxRSILevel && Rsi(SLOW_RSI,0) < MaxRSILevel){
         SellOrder();
         rsi1OnOff = true;
         rsi2OnOff = true;
@@ -111,14 +111,14 @@ void start() {
         if(LowerHigh == 0.0){
             LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
         } else {
-            if(Rsi(FAST_RSI) < MinRSILevel){
+            if(Rsi(FAST_RSI,1) < MinRSILevel){
                 if(LowerHigh < Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
                     LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
                     if(Open[1] > Close[1]){ShadowSize = Close[1] - Low[1];}
                     if(Open[1] < Close[1]){ShadowSize = Open[1] - Low[1];}
                 }
             }
-            if(Rsi(FAST_RSI) > MaxRSILevel){
+            if(Rsi(FAST_RSI,1) > MaxRSILevel){
                 if(LowerHigh > Candle(FAST_RSI, MaxRSILevel, MinRSILevel)){
                     LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
                     if(Open[1] > Close[1]){ShadowSize = fabs(Open[1] - High[1]);}
@@ -182,10 +182,10 @@ double Rsi (int period, int candle){
 
 double Candle(int period, int max, int min){
     double candle = 0.0;
-    if(Rsi(period) < min){ 
+    if(Rsi(period,1) < min){ 
         candle = Low[1];
     }
-    if(Rsi(period) > max){ 
+    if(Rsi(period,1) > max){ 
         candle = High[1];
     }
     return candle;
