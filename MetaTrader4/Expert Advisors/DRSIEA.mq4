@@ -171,7 +171,7 @@ double Candle(int period, int max, int min){
         candle = High[1];
     }
     return candle;
-    alert("Candle: "),candle;
+    alert("Candle: ",candle);
 }
 
 /*------------------------------------------------------------------*/
@@ -188,14 +188,14 @@ double Rsi (int period, int candle){
 
 bool BUY(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,LowerHigh, Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,NULL, Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
 
 bool SELL(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,LowerHigh,Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,NULL,Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
