@@ -93,13 +93,13 @@ void start() {
     signal3 =  Signal_3(Rsi(FAST_RSI,1),Rsi(SLOW_RSI,1),MaxRSILevel, MinRSILevel);
 
     // If all the parameters are Ok then we gonna show an arrow to buy
-    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) < MinRSILevel && Rsi(SLOW_RSI,1) < MinRSILevel){
+    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) < MinRSILevel && Rsi(SLOW_RSI,1) < MinRSILevel && Rsi(SLOW_RSI,0) >= MinRSILevel){
         BuyOrder();
 
     }
 
     // If all the parameters are Ok then we gonna show an arrow to sell
-    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) > MaxRSILevel && Rsi(SLOW_RSI,1) > MaxRSILevel){
+    if(signal1 && signal2 && signal3 && Rsi(FAST_RSI,1) > MaxRSILevel && Rsi(SLOW_RSI,1) > MaxRSILevel && Rsi(SLOW_RSI,0) <= MaxRSILevel){
         SellOrder();
     }
 
