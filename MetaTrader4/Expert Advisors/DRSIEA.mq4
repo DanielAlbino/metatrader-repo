@@ -100,7 +100,7 @@ void OnTick() {
 
 
     // check if the variable lowerhigh is lower/high then the previous candle.
-    if(rsi1OnOff) {
+    if(!rsi1OnOff) {
         if(LowerHigh == 0.0){
             LowerHigh = Candle(FAST_RSI, MaxRSILevel, MinRSILevel);
         } else {
