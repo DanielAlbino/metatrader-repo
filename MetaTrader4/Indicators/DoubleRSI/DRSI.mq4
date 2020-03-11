@@ -194,14 +194,14 @@ double Candle(int period, int max, int min){
 /*------------------------------------------------------------------*/
 
 void BuyOrder(){
-    Buffer1[0] = (LowerHigh - ShadowSize) - 10*Point;
+    Buffer1[0] = (LowerHigh - ShadowSize) - 30*Point;
     LowerHigh = 0.0;
     rsi1OnOff = true;
     rsi2OnOff = true;
 }
 
 void SellOrder(){
-    Buffer2[0] = (LowerHigh + ShadowSize) + 10*Point;
+    Buffer2[0] = (LowerHigh + ShadowSize) + 30*Point;
     LowerHigh = 0.0;
     rsi1OnOff = true;
     rsi2OnOff = true;
