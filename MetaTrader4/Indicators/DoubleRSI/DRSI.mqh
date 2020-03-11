@@ -131,6 +131,7 @@ void start() {
 /* SIGNALS ---------------------------------------------------------*/
 /*------------------------------------------------------------------*/
 
+// check if Fast rsi is overbought/oversold
 bool Signal_1(double rsiFast, int max, int min) {
     if(!signal1){
         if(rsiFast > max || rsiFast < min){
@@ -139,6 +140,7 @@ bool Signal_1(double rsiFast, int max, int min) {
     }  
 }
 
+// check if Slow rsi is overbought/oversold
 bool Signal_2(double rsiLow, int max, int min) {
      if(!signal2){
         if(rsiLow > max || rsiLow < min){
@@ -147,6 +149,7 @@ bool Signal_2(double rsiLow, int max, int min) {
     } 
 }
 
+// Check if Fast rsi is higher/low then Slow rsi on overbough/oversold
 bool Signal_3(double rsifast, double rsilow, int min, int max) {
     if(!signal3){
         if((rsifast > min && rsifast > rsilow) || (rsifast < max && rsifast < rsilow)){
@@ -154,7 +157,6 @@ bool Signal_3(double rsifast, double rsilow, int min, int max) {
         }
     } 
 }
-
 
 /*------------------------------------------------------------------*/
 /* RSI -------------------------------------------------------------*/
