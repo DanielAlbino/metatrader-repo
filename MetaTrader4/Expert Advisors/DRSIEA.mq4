@@ -187,14 +187,14 @@ double Rsi (int period, int candle){
 
 bool BUY(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,Bid - (LowerHigh-(ShadowSize*SLRATIO)), Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,LowerHigh, Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
 
 bool SELL(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,Ask + (LowerHigh+(ShadowSize*SLRATIO)),Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,LowerHigh,Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
     
   return true;
 }
