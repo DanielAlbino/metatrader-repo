@@ -53,7 +53,7 @@ void TPchecker(string symbol, int slip){
    double order;
    if(OrderSymbol() == symbol){
       if(OrderType() == OP_BUY){
-         if(OrderStopLoss() > 0 ){ 
+         if(OrderLots() >= 0.04){ 
             price = OrderOpenPrice();  
             if(OrderTakeProfit() <= 0){
               distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
@@ -65,19 +65,75 @@ void TPchecker(string symbol, int slip){
             }
             if(Bid >= price+(distancebuy*2)){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*2),price+(distancebuy*3),0,clrRed);
-              pclose = OrderClose(OrderTicket(),(OrderLots()/4),Bid,slip,clrGreen);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/3),Bid,slip,clrGreen);
             }
             if(Bid >= price+(distancebuy*3)){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*3),price+(distancebuy*4),0,clrRed);
-              pclose = OrderClose(OrderTicket(),(OrderLots()/4),Bid,slip,clrGreen);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
             }
             if(Bid >= price+(distancebuy*4)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
             }
          }
+          if(OrderLots() == 0.03 ){ 
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
+            }       
+            if(Bid >= price+distancebuy){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/3),Bid,slip,clrGreen);
+            }
+            if(Bid >= price+(distancebuy*2)){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*2),price+(distancebuy*3),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+            }
+            if(Bid >= price+(distancebuy*3)){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
+            }
+         }
+         if(OrderLots() == 0.02 ){ 
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
+            }       
+            if(Bid >= price+distancebuy){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+            }
+            if(Bid >= price+(distancebuy*2)){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
+            }
+         }
+          if(OrderLots() == 0.02 ){ 
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
+            }       
+            if(Bid >= price+distancebuy){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+            }
+            if(Bid >= price+(distancebuy*2)){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
+            }
+         }
+          if(OrderLots() == 0.01 ){ 
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
+            }       
+            if(Bid >= price+distancebuy){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
+            }
+         }
       }
       if(OrderType() == OP_SELL){
-         if(OrderStopLoss() > 0 ){  
+         if( OrderLots() >= 0.04){  
             distancesell = fabs(OrderStopLoss() - OrderOpenPrice());  
             price = OrderOpenPrice();  
             if(OrderTakeProfit() <= 0){
@@ -85,25 +141,66 @@ void TPchecker(string symbol, int slip){
             }       
             if(Ask <= price-distancesell){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
-              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/4),Ask,slip,clrGreen);
             }
             if(Ask <= price-(distancesell*2)){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
-              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/3),Ask,slip,clrGreen);
             }
             if(Ask <= price-(distancesell*3)){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*3),price-(distancesell*4),0,clrRed);
-              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
             }
             if(Ask <= price-(distancesell*4)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
             }
          }
+         if( OrderLots() == 0.03){  
+            distancesell = fabs(OrderStopLoss() - OrderOpenPrice());  
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
+            }       
+            if(Ask <= price-distancesell){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/3),Ask,slip,clrGreen);
+            }
+            if(Ask <= price-(distancesell*2)){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
+            }
+            if(Ask <= price-(distancesell*3)){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+            }
+         }
+          if( OrderLots() == 0.02){  
+            distancesell = fabs(OrderStopLoss() - OrderOpenPrice());  
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
+            }       
+            if(Ask <= price-distancesell){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
+              pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
+            }
+            if(Ask <= price-(distancesell*2)){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+            }
+         }
+                   if( OrderLots() == 0.02){  
+            distancesell = fabs(OrderStopLoss() - OrderOpenPrice());  
+            price = OrderOpenPrice();  
+            if(OrderTakeProfit() <= 0){
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
+            }       
+            if(Ask <= price-distancesell){
+              pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
+            }
+         }
+
       }
    }
 }
-
-
 
 /*
    CHECK IF WE HAVE SOME BUY OR SELL ORDER
