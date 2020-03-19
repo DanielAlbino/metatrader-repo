@@ -60,16 +60,16 @@ void TPchecker(string symbol, int slip){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
             }       
             if(Bid >= price+distancebuy){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/4),Bid,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
             }
             if(Bid >= price+(distancebuy*2)){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*2),price+(distancebuy*3),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/3),Bid,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*2),price+(distancebuy*3),0,clrRed);
             }
             if(Bid >= price+(distancebuy*3)){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*3),price+(distancebuy*4),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price+(distancebuy*3),price+(distancebuy*4),0,clrRed);
             }
             if(Bid >= price+(distancebuy*4)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
@@ -96,12 +96,12 @@ void TPchecker(string symbol, int slip){
          if(OrderLots() == 0.02 ){ 
             price = OrderOpenPrice();  
             if(OrderTakeProfit() <= 0){
-              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
+              distancebuy = fabs(OrderStopLoss() - OrderOpenPrice());  
             }       
             if(Bid >= price+distancebuy){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
             }
             if(Bid >= price+(distancebuy*2)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
@@ -114,8 +114,8 @@ void TPchecker(string symbol, int slip){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price+distancebuy,0,clrRed);
             }       
             if(Bid >= price+distancebuy){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Bid,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()+10*Point),price+(distancebuy*2),0,clrRed);
             }
             if(Bid >= price+(distancebuy*2)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Bid,slip,clrGreen);
@@ -140,16 +140,16 @@ void TPchecker(string symbol, int slip){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
             }       
             if(Ask <= price-distancesell){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/4),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
             }
             if(Ask <= price-(distancesell*2)){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/3),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
             }
             if(Ask <= price-(distancesell*3)){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*3),price-(distancesell*4),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*3),price-(distancesell*4),0,clrRed);
             }
             if(Ask <= price-(distancesell*4)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
@@ -162,12 +162,12 @@ void TPchecker(string symbol, int slip){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
             }       
             if(Ask <= price-distancesell){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/3),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
             }
             if(Ask <= price-(distancesell*2)){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),price-(distancesell*2),price-(distancesell*3),0,clrRed);
             }
             if(Ask <= price-(distancesell*3)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
@@ -180,8 +180,8 @@ void TPchecker(string symbol, int slip){
               order = OrderModify(OrderTicket(),OrderOpenPrice(),OrderStopLoss(),price-distancesell,0,clrRed);
             }       
             if(Ask <= price-distancesell){
-              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
               pclose = OrderClose(OrderTicket(),(OrderLots()/2),Ask,slip,clrGreen);
+              order = OrderModify(OrderTicket(),OrderOpenPrice(),(OrderOpenPrice()-10*Point),price-(distancesell*2),0,clrRed);
             }
             if(Ask <= price-(distancesell*2)){
               pclose = OrderClose(OrderTicket(),OrderLots(),Ask,slip,clrGreen);
