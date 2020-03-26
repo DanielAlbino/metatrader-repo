@@ -5,7 +5,7 @@
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2020, Daniel Albino"
 #property link      "https://github.com/DanielAlbino"
-#property version   "1.00"
+#property version   "2.00"
 #property strict
 
 
@@ -17,6 +17,7 @@ double distancesell = 0;
 double price = 0;
 double BuytpCounter = 0;
 double SelltpCounter = 0;
+
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
@@ -25,6 +26,7 @@ int OnInit()
 
    return(INIT_SUCCEEDED);
   }
+
 //+------------------------------------------------------------------+
 //| Expert deinitialization function                                 |
 //+------------------------------------------------------------------+
@@ -32,6 +34,7 @@ void OnDeinit(const int reason)
   {
 
   }
+  
 //+------------------------------------------------------------------+
 //| Expert tick function                                             |
 //+------------------------------------------------------------------+
@@ -54,6 +57,7 @@ void OnTick()
 
 void TPchecker(string symbol, int slip){
    if(OrderSymbol() == symbol){
+       //check buy orders 
       if(OrderType() == OP_BUY && OrderStopLoss() > 0){
             switch(OrderLots()){
                 case 0.01:
@@ -71,6 +75,7 @@ void TPchecker(string symbol, int slip){
             } 
             BuytpCounter++;
         }
+        // check sell orders
         if(OrderType() == OP_SELL && OrderStopLoss() > 0){
             switch(OrderLots()){
               case 0.01:
