@@ -6,6 +6,7 @@
 #property copyright "Copyright 2020, Daniel Albino"
 #property link      ""
 #property version   "1.00"
+#property indicator_chart_window
 #property strict
 
 
@@ -26,7 +27,7 @@ int OnInit(){
 
 void start() {
     pip_value = MarketInfo(Symbol(), MODE_TICKVALUE);
-    PRINTDOUBLE("Pips val","Pip value: "+DoubleToStr(pip_value, Digits), 10, 10, clrBlue);
+    PRINTTEXT("Pips val","Pip value: "+DoubleToStr(pip_value, Digits), 10, 10, clrBlue);
 }
 
 void PRINTTEXT(string name, string text, int distX, int distY, color clr){
