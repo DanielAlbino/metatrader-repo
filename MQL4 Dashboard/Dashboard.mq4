@@ -18,9 +18,14 @@
 #define INDENT_LEFT                         (11)      // indent from left (with allowance for border width)
 #define INDENT_TOP                          (11)      // indent from top (with allowance for border width)
 #define CONTROLS_GAP_X                      (5)       // gap by X coordinate
+
 //--- for buttons
 #define BUTTON_WIDTH                        (100)     // size by X coordinate
 #define BUTTON_HEIGHT                       (20)      // size by Y coordinate
+
+//--- for buttons
+#define COMBO_WIDTH                        (100)     // size by X coordinate
+#define COMBO_HEIGHT                       (20)      // size by Y coordinate
 //---
 //+------------------------------------------------------------------+
 //| Class CAppWindowTwoButtons                                       |
@@ -40,10 +45,10 @@ public:
 
 protected:
    //--- create dependent controls
-   //bool              CreateButton1(void);
-   //bool              CreateButton2(void);
-   bool              CreateComboBox1(void);
-   bool              CreateComboBox2(void);
+   bool              CreateButton1(void);
+   bool              CreateButton2(void);
+   bool              CreateComboBox1(int x1, int x2, int width, int height);
+   bool              CreateComboBox2(int x1, int x2, int width, int height);
 
    //--- handlers of the dependent controls events
    void              OnChangeComboBox1(void);
@@ -75,6 +80,11 @@ bool CAppWindowTwoButtons::Create(const long chart,const string name,const int s
    if(!CreateButton1())
       return(false);
    if(!CreateButton2())
+      return(false);
+
+   if(!CreateComboBox1(10, 11, 100, 50))
+      return(false);
+   if(!CreateComboBox2(10, 110, 100, 50))
       return(false);
 //--- succeed
    return(true);
@@ -156,7 +166,7 @@ bool CAppWindowTwoButtons::CreateButton2(void)
 //--- succeed
    return(true);
   }
-//+------------------------------------------------------------------+
+
 //+------------------------------------------------------------------+
 //| Create the "ComboBox" element                                    |
 //+------------------------------------------------------------------+
@@ -165,7 +175,9 @@ bool CControlsDialog::CreateComboBox1(int x1, int y1, int x2, int y2)
 //--- coordinates
 
 //--- create
-   if(!m_combo_box.Create(m_chart_id,m_name+"ComboBox",m_subwin,x1,y1,x2,y2))
+   if(!m_combo_box.Create(0,"ComboBox1",0,x1,y1,x2,y2))
+      return(false);
+   if(!m_combo_box.Text("Option"))
       return(false);
    if(!Add(m_combo_box))
       return(false);
@@ -185,7 +197,7 @@ bool CControlsDialog::CreateComboBox2(int x1, int y1, int x2, int y2)
 //--- coordinates
 
 //--- create
-   if(!m_combo_box.Create(m_chart_id,m_name+"ComboBox",m_subwin,x1,y1,x2,y2))
+   if(!m_combo_box.Create(0,"ComboBox2",0,x1,y1,x2,y2))
       return(false);
    if(!Add(m_combo_box))
       return(false);
