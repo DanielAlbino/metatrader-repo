@@ -32,7 +32,7 @@ input TimeFrame tf = M1; // Time frame
 /* MONEY MANAGEMENT */
 input double lots = 0.01; // Lot size
 input int slip = 1; // slippage size
-
+input int trail = 100; // Trailing Stop Points
 /* TP/SL RATIO */
 input double SLRATIO = 1.0; // SL RATIO ex: 1.0, 1.2, 5.0
 input TPchoice choice = 1;
@@ -120,6 +120,8 @@ void OnTick() {
             }
         }
     }
+
+    Trailing(trail);
 }
 /*------------------------------------------------------------------*/
 /* SIGNALS ---------------------------------------------------------*/
@@ -187,14 +189,14 @@ double Rsi (int period, int candle){
 
 bool BUY(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,LowerHigh-(ShadowSize*SLRATIO), Bid + (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_BUY,lot,Ask,slippage,LowerHigh-(ShadowSize*SLRATIO), NULL,comment, magicnumber,0,scolor);
     
   return true;
 }
 
 bool SELL(double lot, int slippage, string comment, int magic, color scolor){
     double order;
-    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,LowerHigh+(ShadowSize*SLRATIO),Ask - (ShadowSize*TPRATIO),comment, magicnumber,0,scolor);
+    order = OrderSend(Symbol(), OP_SELL,lot,Bid,slippage,LowerHigh+(ShadowSize*SLRATIO),NULL,comment, magicnumber,0,scolor);
     
   return true;
 }
@@ -228,4 +230,37 @@ int  ORDERSELL(int magic){
       }
    }
    return sells;
+}
+
+// create the Trailling profit for all trades
+void TrailingAlls( int trailling)
+  {
+   
+         double PointValue;
+         for (int i = 0; i < OrdersTotal(); i++)
+         {
+            ordem = OrderSelect(i, SELECT_BY_POS, MODE_TRADES);
+            PointValue = MarketInfo(OrderSymbol(), MODE_POINT);
+            //Normalize trailing stop value to the point value
+            double TSTP = trailling * PointValue;
+            if (OrderType() == OP_BUY && OrderSymbol() == Symbol())
+               { if ((Bid - OrderOpenPrice()) > TSTP)
+                  { if (OrderStopLoss() < (Bid - TSTP))
+                     {
+                        ordem = OrderModify(OrderTicket(), OrderOpenPrice(), Bid - TSTP, OrderTakeProfit(), Red);
+                     }
+                  }
+               }
+			   
+            else 
+			
+			if (OrderType() == OP_SELL && OrderMagicNumber() == magic)
+               { if ((OrderOpenPrice() - Ask) > trailling * PointValue)
+                  { if ((OrderStopLoss() > (Ask + trailling * PointValue)) || (OrderStopLoss() == 0))
+                     {
+                        ordem = OrderModify(OrderTicket(), OrderOpenPrice(), Ask + TSTP, OrderTakeProfit(), Red);
+                     }
+                  }
+               }
+         }
 }

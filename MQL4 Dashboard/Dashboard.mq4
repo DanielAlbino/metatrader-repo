@@ -8,69 +8,150 @@
 #property version   "1.00"
 #property indicator_chart_window
 #property strict
-
+#include <Controls\Dialog.mqh>
 #include <Controls\ComboBox.mqh>
-class CComboBox : public CWndContainer
-/* 
-    criar um dashboard que tenha um input para o user colocar que box deseja
-    ter um print a informar qual é a melhor box para fazer trade
- */
-int OnInit(){
-    
+
+//+------------------------------------------------------------------+
+//| defines                                                          |
+//+------------------------------------------------------------------+
+//--- indents and gaps
+#define INDENT_LEFT                         (11)      // indent from left (with allowance for border width)
+#define INDENT_TOP                          (0)      // indent from top (with allowance for border width)
+#define INDENT_RIGHT                        (11)      // indent from right (with allowance for border width)
+#define INDENT_BOTTOM                       (11)      // indent from bottom (with allowance for border width)
+#define CONTROLS_GAP_X                      (0)       // gap by X coordinate
+#define CONTROLS_GAP_Y                      (0)       // gap by Y coordinate
+//--- for buttons
+#define BUTTON_WIDTH                        (100)     // size by X coordinate
+#define BUTTON_HEIGHT                       (20)      // size by Y coordinate
+//--- for the indication area
+#define EDIT_HEIGHT                         (20)      // size by Y coordinate
+//--- for group controls
+#define GROUP_WIDTH                         (150)     // size by X coordinate
+#define LIST_HEIGHT                         (179)     // size by Y coordinate
+#define RADIO_HEIGHT                        (56)      // size by Y coordinate
+#define CHECK_HEIGHT                        (93)      // size by Y coordinate
+//+------------------------------------------------------------------+
+//| Class CControlsDialog                                            |
+//| Usage: main dialog of the Controls application                   |
+//+------------------------------------------------------------------+
+class CControlsDialog : public CAppDialog
+  {
+private:
+   CComboBox         m_combo_box;;                    // CComboBox object
+ 
+public:
+                     CControlsDialog(void);
+                    ~CControlsDialog(void);
+   //--- create
+   virtual bool      Create(const long chart,const string name,const int subwin,const int x1,const int y1,const int x2,const int y2);
+   //--- chart event handler
+   virtual bool      OnEvent(const int id,const long &lparam,const double &dparam,const string &sparam);
+ 
+protected:
+   //--- create dependent controls
+   bool              CreateComboBox(void);
+   //--- handlers of the dependent controls events
+   void              OnChangeComboBox(void);
+  };
+//+------------------------------------------------------------------+
+//| Event Handling                                                   |
+//+------------------------------------------------------------------+
+EVENT_MAP_BEGIN(CControlsDialog)
+ON_EVENT(ON_CHANGE,m_combo_box,OnChangeComboBox)
+EVENT_MAP_END(CAppDialog)
+//+------------------------------------------------------------------+
+//| Constructor                                                      |
+//+------------------------------------------------------------------+
+CControlsDialog::CControlsDialog(void)
+  {
+  }
+//+------------------------------------------------------------------+
+//| Destructor                                                       |
+//+------------------------------------------------------------------+
+CControlsDialog::~CControlsDialog(void)
+  {
+  }
+//+------------------------------------------------------------------+
+//| Create                                                           |
+//+------------------------------------------------------------------+
+bool CControlsDialog::Create(const long chart,const string name,const int subwin,const int x1,const int y1,const int x2,const int y2)
+  {
+   if(!CAppDialog::Create(chart,name,subwin,x1,y1,x2,y2))
+      return(false);
+//--- create dependent controls
+   if(!CreateComboBox())
+      return(false);
+//--- succeed
+   return(true);
+  }
+//+------------------------------------------------------------------+
+//| Create the "ComboBox" element                                    |
+//+------------------------------------------------------------------+
+bool CControlsDialog::CreateComboBox(void)
+  {
+//--- coordinates
+   int x1=INDENT_LEFT;
+   int y1=INDENT_TOP+(EDIT_HEIGHT+CONTROLS_GAP_Y)+
+          (BUTTON_HEIGHT+CONTROLS_GAP_Y)+
+          (EDIT_HEIGHT+CONTROLS_GAP_Y);
+   int x2=x1+GROUP_WIDTH;
+   int y2=y1+EDIT_HEIGHT;
+//--- create
+   if(!m_combo_box.Create(m_chart_id,m_name+"ComboBox",m_subwin,x1,y1,x2,y2))
+      return(false);
+   if(!Add(m_combo_box))
+      return(false);
+//--- fill out with strings
+   for(int i=0;i<20;i++)
+      if(!m_combo_box.ItemAdd("Item "+IntegerToString(i)))
+         return(false);
+//--- succeed
+   return(true);
+  }
+//+------------------------------------------------------------------+
+//| Event handler                                                    |
+//+------------------------------------------------------------------+
+void CControlsDialog::OnChangeComboBox(void)
+  {
+   Comment(__FUNCTION__+" \""+m_combo_box.Select()+"\"");
+  }
+//+------------------------------------------------------------------+
+//| Global Variables                                                 |
+//+------------------------------------------------------------------+
+CControlsDialog ExtDialog;
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+  {
+//--- create application dialog
+   if(!ExtDialog.Create(0,"ARA v1.0",0,40,40,380,344))
+      return(INIT_FAILED);
+//--- run application
+   ExtDialog.Run();
+//--- succeed
    return(INIT_SUCCEEDED);
-}
-
-
-void start() {
-
-}
-
-// Background Rectangle
-void PRINTDASH(int chart_ID, string name, int x, int y, int width, int height, color clr, bool back){
-    ObjectCreate(chart_ID,name,OBJ_RECTANGLE_LABEL,x,y)
-    //--- set label coordinates
-    ObjectSetInteger(chart_ID,name,OBJPROP_XDISTANCE,x);
-    ObjectSetInteger(chart_ID,name,OBJPROP_YDISTANCE,y);
-    //--- set label size
-    ObjectSetInteger(chart_ID,name,OBJPROP_XSIZE,width);
-    ObjectSetInteger(chart_ID,name,OBJPROP_YSIZE,height);
-    //--- set background color
-    ObjectSetInteger(chart_ID,name,OBJPROP_BGCOLOR,clr);
-    //--- display in the foreground (false) or background (true)
-    ObjectSetInteger(chart_ID,name,OBJPROP_BACK,back);
-}
-
-
-// Print any necessary text
-void PRINTTEXT(string name, string text, int distX, int distY, color clr){
-    ObjectCreate(name, OBJ_LABEL, 0, 0, 0);
-    ObjectSetText(name,text,7, "Verdana", clr);
-    ObjectSet(name, OBJPROP_CORNER, 0);
-    ObjectSet(name, OBJPROP_XDISTANCE, distX);
-    ObjectSet(name, OBJPROP_YDISTANCE, distY);
-}
-
-
-// Print the input box
-void PRINTINPUT(int chart_ID,string name, string text, int x, int y, int width, int height,  color clr){
-    ObjectCreate(chart_ID,name, OBJ_EDIT, 0, 0, 0);
-    ObjectSet(chart_ID,name, OBJPROP_CORNER, 0);
-    ObjectSet(chart_ID,name, OBJPROP_XDISTANCE, distX);
-    ObjectSet(chart_ID,name, OBJPROP_YDISTANCE, distY);
-    //--- set label size
-    ObjectSetInteger(chart_ID,name,OBJPROP_XSIZE,width);
-    ObjectSetInteger(chart_ID,name,OBJPROP_YSIZE,height);
-    //--- set the text
-    ObjectSetString(chart_ID,name,OBJPROP_TEXT,text);
-    //--- set text color
-    ObjectSetInteger(chart_ID,name,OBJPROP_COLOR,clr);
-}
-
-// Print the combobox
-void PRINTCOMBOBOX(int chart_ID,string name, string text,int boxes, int x, int y, int width, int height,  color clr){
-    m_combo_box.Create(chart_ID,name,m_subwin,x,y,x2,y2)
-    for(int i=0;i<boxes;i++){
-        m_combo_box.ItemAdd("Item "+IntegerToString(i));
-    }
-
-}
+  }
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+  {
+//--- 
+   Comment("");
+//--- destroy dialog
+   ExtDialog.Destroy(reason);
+  }
+  
+ void start(){}
+//+------------------------------------------------------------------+
+//| Expert chart event function                                      |
+//+------------------------------------------------------------------+
+void OnChartEvent(const int id,         // event ID  
+                  const long& lparam,   // event parameter of the long type
+                  const double& dparam, // event parameter of the double type
+                  const string& sparam) // event parameter of the string type
+  {
+   ExtDialog.ChartEvent(id,lparam,dparam,sparam);
+  }
