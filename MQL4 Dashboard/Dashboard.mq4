@@ -11,6 +11,7 @@
 #property description "Control Panels and Dialogs."
 #include <Controls\Dialog.mqh>
 #include <Controls\Button.mqh>
+#include <Controls\ComboBox.mqh>
 //+------------------------------------------------------------------+
 //| defines                                                          |
 //+------------------------------------------------------------------+
@@ -31,60 +32,73 @@
 //| Class CAppWindowTwoButtons                                       |
 //| Usage: main dialog of the Controls application                   |
 //+------------------------------------------------------------------+
-class CAppWindowTwoButtons : public CAppDialog
+class CControlsDialog : public CAppDialog
   {
 private:
    CButton           m_button1;                       // the button object
    CButton           m_button2;                       // the button object
+   
+   CComboBox         m_combo_box1;                       // the combo box object
+   CComboBox         m_combo_box2;                       // the combo box object
 
 public:
-                     CAppWindowTwoButtons(void);
-                    ~CAppWindowTwoButtons(void);
+                     CControlsDialog(void);
+                    ~CControlsDialog(void);
+                     
    //--- create
    virtual bool      Create(const long chart,const string name,const int subwin,const int x1,const int y1,const int x2,const int y2);
+   virtual bool      OnEvent(const int id, const long &lparam, const double &dparam, const string &sparam);
 
 protected:
    //--- create dependent controls
-   bool              CreateButton1(void);
-   bool              CreateButton2(void);
+   bool              CreateButton1(int x1, int x2, int width, int height);
+   bool              CreateButton2(int x1, int x2, int width, int height);
+   
    bool              CreateComboBox1(int x1, int x2, int width, int height);
    bool              CreateComboBox2(int x1, int x2, int width, int height);
 
    //--- handlers of the dependent controls events
    void              OnChangeComboBox1(void);
    void              OnChangeComboBox2(void);
-     //--- override the parent method
-   virtual void      Minimize(void);
+
 
   };
 //+------------------------------------------------------------------+
+//| Event Handling                                                   |
+//+------------------------------------------------------------------+  
+ EVENT_MAP_BEGIN(CControlsDialog)
+ ON_EVENT(ON_CHANGE, m_combo_box1, OnChangeComboBox1)
+ ON_EVENT(ON_CHANGE,m_combo_box2, OnChangeComboBox2)
+ EVENT_MAP_END(CAppDialog)
+ 
+//+------------------------------------------------------------------+
 //| Constructor                                                      |
 //+------------------------------------------------------------------+
-CAppWindowTwoButtons::CAppWindowTwoButtons(void)
+CControlsDialog::CControlsDialog(void)
   {
   }
 //+------------------------------------------------------------------+
 //| Destructor                                                       |
 //+------------------------------------------------------------------+
-CAppWindowTwoButtons::~CAppWindowTwoButtons(void)
+CControlsDialog::~CControlsDialog(void)
   {
   }
 //+------------------------------------------------------------------+
 //| Create                                                           |
 //+------------------------------------------------------------------+
-bool CAppWindowTwoButtons::Create(const long chart,const string name,const int subwin,const int x1,const int y1,const int x2,const int y2)
+bool CControlsDialog::Create(const long chart,const string name,const int subwin,const int x1,const int y1,const int x2,const int y2)
   {
    if(!CAppDialog::Create(chart,name,subwin,x1,y1,x2,y2))
       return(false);
 //--- create dependent controls
-   if(!CreateButton1())
+   if(!CreateButton1(30,0,50,20))
       return(false);
-   if(!CreateButton2())
+   if(!CreateButton2(30,10,50,20))
       return(false);
-
+   
    if(!CreateComboBox1(10, 11, 100, 50))
       return(false);
-   if(!CreateComboBox2(10, 110, 100, 50))
+   if(!CreateComboBox2(30, 100, 100, 50))
       return(false);
 //--- succeed
    return(true);
@@ -92,14 +106,14 @@ bool CAppWindowTwoButtons::Create(const long chart,const string name,const int s
 //+------------------------------------------------------------------+
 //| Global Variable                                                  |
 //+------------------------------------------------------------------+
-CAppWindowTwoButtons ExtDialog;
+CControlsDialog ExtDialog;
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
 //+------------------------------------------------------------------+
 int OnInit()
   {
 //--- create application dialog
-   if(!ExtDialog.Create(0,"AppWindowClass with Two Buttons",0,40,40,380,344))
+   if(!ExtDialog.Create(0,"AppWindowClass with Two Buttons",0,0,40,380,344))
       return(INIT_FAILED);
 //--- run application
    ExtDialog.Run();
@@ -116,26 +130,15 @@ void OnDeinit(const int reason)
 //--- destroy dialog
    ExtDialog.Destroy(reason);
   }
-//+------------------------------------------------------------------+
-//| Expert chart event function                                      |
-//+------------------------------------------------------------------+
-void OnChartEvent(const int id,         // event ID  
-                  const long& lparam,   // event parameter of the long type
-                  const double& dparam, // event parameter of the double type
-                  const string& sparam) // event parameter of the string type
-  {
-   ExtDialog.ChartEvent(id,lparam,dparam,sparam);
-  }
+  
+void start(){}
+
 //+------------------------------------------------------------------+
 //| Create the "Button1" button                                      |
 //+------------------------------------------------------------------+
-bool CAppWindowTwoButtons::CreateButton1(void)
+bool CControlsDialog::CreateButton1(int x1, int y1, int x2, int y2)
   {
-//--- coordinates
-   int x1=INDENT_LEFT;        // x1            = 11  pixels
-   int y1=INDENT_TOP;         // y1            = 11  pixels
-   int x2=x1+BUTTON_WIDTH;    // x2 = 11 + 100 = 111 pixels
-   int y2=y1+BUTTON_HEIGHT;   // y2 = 11 + 20  = 32  pixels
+
 //--- create
    if(!m_button1.Create(0,"Button1",0,x1,y1,x2,y2))
       return(false);
@@ -149,13 +152,9 @@ bool CAppWindowTwoButtons::CreateButton1(void)
 //+------------------------------------------------------------------+
 //| Create the "Button2"                                             |
 //+------------------------------------------------------------------+
-bool CAppWindowTwoButtons::CreateButton2(void)
+bool CControlsDialog::CreateButton2(int x1, int y1, int x2, int y2)
   {
-//--- coordinates
-   int x1=INDENT_LEFT+2*(BUTTON_WIDTH+CONTROLS_GAP_X);   // x1 = 11  + 2 * (100 + 5) = 221 pixels
-   int y1=INDENT_TOP;                                    // y1                       = 11  pixels
-   int x2=x1+BUTTON_WIDTH;                               // x2 = 221 + 100           = 321 pixels
-   int y2=y1+BUTTON_HEIGHT;                              // y2 = 11  + 20            = 31  pixels
+
 //--- create
    if(!m_button2.Create(0,"Button2",0,x1,y1,x2,y2))
       return(false);
@@ -175,15 +174,13 @@ bool CControlsDialog::CreateComboBox1(int x1, int y1, int x2, int y2)
 //--- coordinates
 
 //--- create
-   if(!m_combo_box.Create(0,"ComboBox1",0,x1,y1,x2,y2))
+   if(!m_combo_box1.Create(0,"ComboBox1",0,x1,y1,x2,y2))
       return(false);
-   if(!m_combo_box.Text("Option"))
-      return(false);
-   if(!Add(m_combo_box))
+   if(!Add(m_combo_box1))
       return(false);
 //--- fill out with strings
    for(int i=0;i<20;i++)
-      if(!m_combo_box.ItemAdd("Item "+IntegerToString(i)))
+      if(!m_combo_box1.ItemAdd("Item "+IntegerToString(i)))
          return(false);
 //--- succeed
    return(true);
@@ -197,13 +194,13 @@ bool CControlsDialog::CreateComboBox2(int x1, int y1, int x2, int y2)
 //--- coordinates
 
 //--- create
-   if(!m_combo_box.Create(0,"ComboBox2",0,x1,y1,x2,y2))
+   if(!m_combo_box2.Create(0,"ComboBox2",0,x1,y1,x2,y2))
       return(false);
-   if(!Add(m_combo_box))
+   if(!Add(m_combo_box2))
       return(false);
 //--- fill out with strings
    for(int i=0;i<20;i++)
-      if(!m_combo_box.ItemAdd("Item "+IntegerToString(i)))
+      if(!m_combo_box2.ItemAdd("Item "+IntegerToString(i)))
          return(false);
 //--- succeed
    return(true);
@@ -214,7 +211,7 @@ bool CControlsDialog::CreateComboBox2(int x1, int y1, int x2, int y2)
 //+------------------------------------------------------------------+
 void CControlsDialog::OnChangeComboBox1(void)
   {
-   Comment(__FUNCTION__+" \""+m_combo_box.Select()+"\"");
+   Comment(__FUNCTION__+" \""+m_combo_box1.Select()+"\"");
   }
   
 //+------------------------------------------------------------------+
@@ -222,37 +219,17 @@ void CControlsDialog::OnChangeComboBox1(void)
 //+------------------------------------------------------------------+
 void CControlsDialog::OnChangeComboBox2(void)
   {
-   Comment(__FUNCTION__+" \""+m_combo_box.Select()+"\"");
+   Comment(__FUNCTION__+" \""+m_combo_box2.Select()+"\"");
   }
 
 
 //+------------------------------------------------------------------+
-//| MINIMIZE                                                         |
+//| Expert chart event function                                      |
 //+------------------------------------------------------------------+
-void CAppWindowCorrectMinimization::Minimize(void)
+void OnChartEvent(const int id,         // event ID  
+                  const long& lparam,   // event parameter of the long type
+                  const double& dparam, // event parameter of the double type
+                  const string& sparam) // event parameter of the string type
   {
-//--- a variable for checking the one-click trading panel
-   long one_click_visible=-1;  // 0 - there is no one-click trading panel
-   if(!ChartGetInteger(m_chart_id,CHART_SHOW_ONE_CLICK,0,one_click_visible))
-     {
-      //--- display the error message in Experts journal
-      Print(__FUNCTION__+", Error Code = ",GetLastError());
-     }
-//--- the minimum indent for a minimized panel
-   int min_y_indent=28;
-   if(one_click_visible)
-      min_y_indent=100;  // use this indent if there is a one-click trading panel in the chart
-//--- getting the current indent for the minimized panel
-   int current_y_top=m_min_rect.top;
-   int current_y_bottom=m_min_rect.bottom;
-   int height=current_y_bottom-current_y_top;
-//--- сalculating the minimum indent from top for a minimized panel of the application
-   if(m_min_rect.top!=min_y_indent)
-     {
-      m_min_rect.top=min_y_indent;
-      //--- shifting the lower border of the minimized icon
-      m_min_rect.bottom=m_min_rect.top+height;
-     }
-//--- Now we can call the method of the base class
-   CAppDialog::Minimize();
+   ExtDialog.ChartEvent(id,lparam,dparam,sparam);
   }
